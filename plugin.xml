@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+Copyright (c) 2012 Taylor Raack <traack@raack.info>.
+
+This file is part of Valaclipse.
+
+Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.  This file is offered as-is, without any warranty.
+-->
+<plugin>
+
+   <extension
+         id="builder"
+         name="Vala Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="valaclipse.builder.ValaBuilder">
+         </run>
+      </builder>
+   </extension>
+   
+   <extension
+         id="nature"
+         name="Vala Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="valaclipse.ValaNature">
+         </run>
+      </runtime>
+      <builder
+            id="valaclipse.builder">
+      </builder>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            lightweight="true"
+            location="BOTTOM_RIGHT"
+            adaptable="true"
+            label="Resource Decorator"
+            icon="icons/vala_ovr.gif"
+            state="true"
+            id="valaclipse.decorator">
+         <enablement>
+            <and>
+              <objectClass name="org.eclipse.core.resources.IProject"></objectClass>
+              <objectState name="nature" value="valaclipse.nature"></objectState>
+            </and>
+         </enablement>
+      </decorator>
+   </extension>
+   
+   <extension point="org.eclipse.core.contenttype.contentTypes">
+	<content-type
+		base-type="org.eclipse.core.runtime.text"
+		default-charset="UTF-8"
+		file-extensions="vala"
+		id="valaclipse.valaContentDescriber"
+		name="ValaContentType"
+		priority="normal">
+	</content-type>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors">
+		<editor class="org.eclipse.ui.editors.text.TextEditor"
+			default="true"
+			extensions="vala"
+			icon="icons/vala_file.gif"
+			id="valaclipse.editor.valaEditor"
+			contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+			name="Vala File Editor">
+			<contentTypeBinding contentTypeId="valaclipse.valaContentDescriber">
+			</contentTypeBinding>
+		</editor>
+	</extension>
+
+</plugin>
